@@ -1,6 +1,10 @@
 [package]
 name = "closures"
+description = "Abstraction for seperating code and state in closures"
 version = "0.1.0"
 authors = ["panicbit <panicbit.dev@gmail.com>"]
-
-[dependencies]
+documentation = "https://docs.rs/closures"
+repository = "https://github.com/panicbit/rust-closures"
+keywords = ["closure", "traits", "clone", "eq", "partialeq", "unboxed"]
+categories = ["no-std", "data-structures"]
+license = "MIT/Apache-2.0"
