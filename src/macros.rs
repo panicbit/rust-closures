@@ -253,6 +253,12 @@ macro_rules! impl_traits {
         {
         }
 
+        // Copy
+        impl<S, R, $($args)*> ::core::marker::Copy for $name<S, R, $($args)*>
+            where S: Copy
+        {
+        }
+
         // Clone
         impl<S, R, $($args)*> ::core::clone::Clone for $name<S, R, $($args)*>
             where S: Clone
