@@ -18,7 +18,7 @@ macro_rules! impl_closure_once {
         #[allow(non_snake_case)]
         impl<S, R, $($args)*> ::std::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
             type Output = R;
-            
+
             extern "rust-call" fn call_once(self, ($($args)*): ($($args)*)) -> Self::Output {
                 (self.f)(self.state, $($args)*)
             }
@@ -46,7 +46,7 @@ macro_rules! impl_closure_mut {
         #[allow(non_snake_case)]
         impl<S, R, $($args)*> ::std::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
             type Output = R;
-            
+
             extern "rust-call" fn call_once(mut self, ($($args)*): ($($args)*)) -> Self::Output {
                 (self.f)(&mut self.state, $($args)*)
             }
@@ -81,7 +81,7 @@ macro_rules! impl_closure {
         #[allow(non_snake_case)]
         impl<S, R, $($args)*> ::std::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
             type Output = R;
-            
+
             extern "rust-call" fn call_once(self, ($($args)*): ($($args)*)) -> Self::Output {
                 (self.f)(&self.state, $($args)*)
             }
@@ -98,6 +98,135 @@ macro_rules! impl_closure {
         impl<S, R, $($args)*> ::std::ops::Fn<($($args)*)> for $name<S, R, $($args)*> {
             extern "rust-call" fn call(&self, ($($args)*): ($($args)*)) -> Self::Output {
                 (self.f)(&self.state, $($args)*)
+            }
+        }
+    }
+}
+
+macro_rules! impl_rec_closure_once {
+    ($name:ident, $($args:tt)*) => {
+        pub struct $name<S, R, $($args)*> {
+            state: S,
+            f: fn($name<S, R, $($args)*>, $($args)*) -> R,
+        }
+
+        #[allow(non_snake_case)]
+        impl<S, R, $($args)*> $name<S, R, $($args)*> {
+            pub fn new(state: S, f: fn($name<S, R, $($args)*>, $($args)*) -> R) -> Self {
+                $name {
+                    state,
+                    f,
+                }
+            }
+
+            pub fn state(&self) -> &S {
+                &self.state
+            }
+
+            pub fn state_mut(&mut self) -> &mut S {
+                &mut self.state
+            }
+
+            pub fn into_state(self) -> S {
+                self.state
+            }
+        }
+
+        #[allow(non_snake_case)]
+        impl<S, R, $($args)*> ::std::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
+            type Output = R;
+
+            extern "rust-call" fn call_once(self, ($($args)*): ($($args)*)) -> Self::Output {
+                (self.f)(self, $($args)*)
+            }
+        }
+    }
+}
+
+macro_rules! impl_rec_closure_mut {
+    ($name:ident, $($args:tt)*) => {
+        pub struct $name<S, R, $($args)*> {
+            state: S,
+            f: fn(&mut $name<S, R, $($args)*>, $($args)*) -> R,
+        }
+
+        #[allow(non_snake_case)]
+        impl<S, R, $($args)*> $name<S, R, $($args)*> {
+            pub fn new(state: S, f: fn(&mut $name<S, R, $($args)*>, $($args)*) -> R) -> Self {
+                $name {
+                    state,
+                    f,
+                }
+            }
+
+            pub fn state(&self) -> &S {
+                &self.state
+            }
+
+            pub fn state_mut(&mut self) -> &mut S {
+                &mut self.state
+            }
+        }
+
+        #[allow(non_snake_case)]
+        impl<S, R, $($args)*> ::std::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
+            type Output = R;
+
+            extern "rust-call" fn call_once(mut self, ($($args)*): ($($args)*)) -> Self::Output {
+                (self.f)(&mut self, $($args)*)
+            }
+        }
+
+        #[allow(non_snake_case)]
+        impl<S, R, $($args)*> ::std::ops::FnMut<($($args)*)> for $name<S, R, $($args)*> {
+            extern "rust-call" fn call_mut(&mut self, ($($args)*): ($($args)*)) -> Self::Output {
+                (self.f)(self, $($args)*)
+            }
+        }
+    }
+}
+
+macro_rules! impl_rec_closure {
+    ($name:ident, $($args:tt)*) => {
+        pub struct $name<S, R, $($args)*> {
+            state: S,
+            f: fn(&$name<S, R, $($args)*>, $($args)*) -> R,
+        }
+
+        #[allow(non_snake_case)]
+        impl<S, R, $($args)*> $name<S, R, $($args)*> {
+            pub fn new(state: S, f: fn(&$name<S, R, $($args)*>, $($args)*) -> R) -> Self {
+                $name {
+                    state,
+                    f,
+                }
+            }
+
+            pub fn state(&self) -> &S {
+                &self.state
+            }
+        }
+
+        #[allow(non_snake_case)]
+        impl<S, R, $($args)*> ::std::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
+            type Output = R;
+
+            extern "rust-call" fn call_once(self, ($($args)*): ($($args)*)) -> Self::Output {
+                (self.f)(&self, $($args)*)
+            }
+        }
+
+        #[allow(non_snake_case)]
+        impl<S, R, $($args)*> ::std::ops::FnMut<($($args)*)> for $name<S, R, $($args)*> {
+            extern "rust-call" fn call_mut(&mut self, ($($args)*): ($($args)*)) -> Self::Output {
+                (self.f)(self, $($args)*)
+            }
+        }
+
+        #[allow(non_snake_case)]
+        impl<S, R, $($args)*> ::std::ops::Fn<($($args)*)> for $name<S, R, $($args)*> {
+            extern "rust-call" fn call(&self, ($($args)*): ($($args)*)) -> Self::Output {
+                (self.f)(self, $($args)*)
             }
         }
     }
@@ -135,13 +264,21 @@ macro_rules! impl_traits {
 }
 
 macro_rules! impl_closures {
-    ($once_name:ident, $mut_name:ident, $name:ident,$($args:tt)*) => {
+    ($once_name:ident, $mut_name:ident, $name:ident, $rec_once_name:ident, $rec_mut_name:ident, $rec_name:ident, $($args:tt)*) => {
         impl_closure_once!($once_name, $($args)*);
         impl_closure_mut!($mut_name, $($args)*);
         impl_closure!($name, $($args)*);
 
+        impl_rec_closure_once!($rec_once_name, $($args)*);
+        impl_rec_closure_mut!($rec_mut_name, $($args)*);
+        impl_rec_closure!($rec_name, $($args)*);
+
         impl_traits!($once_name, $($args)*);
         impl_traits!($mut_name, $($args)*);
         impl_traits!($name, $($args)*);
+
+        impl_traits!($rec_once_name, $($args)*);
+        impl_traits!($rec_mut_name, $($args)*);
+        impl_traits!($rec_name, $($args)*);
     }
 }
