@@ -1,3 +1,19 @@
+macro_rules! impl_state_accessors {
+    () => {
+        pub fn state(&self) -> &S {
+            &self.state
+        }
+
+        pub fn state_mut(&mut self) -> &mut S {
+            &mut self.state
+        }
+
+        pub fn into_state(self) -> S {
+            self.state
+        }
+    }
+}
+
 macro_rules! impl_closure_once {
     ($name:ident, $($args:tt)*) => {
         pub struct $name<S, R, $($args)*> {
@@ -13,6 +29,8 @@ macro_rules! impl_closure_once {
                     f,
                 }
             }
+
+            impl_state_accessors!();
         }
 
         #[allow(non_snake_case)]
@@ -41,6 +59,8 @@ macro_rules! impl_closure_mut {
                     f,
                 }
             }
+
+            impl_state_accessors!();
         }
 
         #[allow(non_snake_case)]
@@ -76,6 +96,8 @@ macro_rules! impl_closure {
                     f,
                 }
             }
+
+            impl_state_accessors!();
         }
 
         #[allow(non_snake_case)]
@@ -119,17 +141,7 @@ macro_rules! impl_rec_closure_once {
                 }
             }
 
-            pub fn state(&self) -> &S {
-                &self.state
-            }
-
-            pub fn state_mut(&mut self) -> &mut S {
-                &mut self.state
-            }
-
-            pub fn into_state(self) -> S {
-                self.state
-            }
+            impl_state_accessors!();
         }
 
         #[allow(non_snake_case)]
@@ -159,13 +171,7 @@ macro_rules! impl_rec_closure_mut {
                 }
             }
 
-            pub fn state(&self) -> &S {
-                &self.state
-            }
-
-            pub fn state_mut(&mut self) -> &mut S {
-                &mut self.state
-            }
+            impl_state_accessors!();
         }
 
         #[allow(non_snake_case)]
@@ -202,9 +208,7 @@ macro_rules! impl_rec_closure {
                 }
             }
 
-            pub fn state(&self) -> &S {
-                &self.state
-            }
+            impl_state_accessors!();
         }
 
         #[allow(non_snake_case)]
