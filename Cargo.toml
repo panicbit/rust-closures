@@ -5,6 +5,6 @@ version = "0.1.0"
 authors = ["panicbit <panicbit.dev@gmail.com>"]
 documentation = "https://docs.rs/closures"
 repository = "https://github.com/panicbit/rust-closures"
-keywords = ["closure", "traits", "clone", "eq", "partialeq", "unboxed"]
+keywords = ["closure", "traits", "clone", "eq", "unboxed"]
 categories = ["no-std", "data-structures"]
 license = "MIT/Apache-2.0"
