@@ -57,3 +57,27 @@ impl_closures!(ClosureOnce7, ClosureMut7, Closure7, RecClosureOnce7, RecClosureM
 impl_closures!(ClosureOnce8, ClosureMut8, Closure8, RecClosureOnce8, RecClosureMut8, RecClosure8, T1, T2, T3, T4, T5, T6, T7, T8);
 impl_closures!(ClosureOnce9, ClosureMut9, Closure9, RecClosureOnce9, RecClosureMut9, RecClosure9, T1, T2, T3, T4, T5, T6, T7, T8, T9);
 impl_closures!(ClosureOnce10, ClosureMut10, Closure10, RecClosureOnce10, RecClosureMut10, RecClosure10, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10);
+
+impl<S, R> ::core::iter::Iterator for ClosureMut<S, Option<R>> {
+    type Item = R;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self()
+    }
+}
+
+impl<S, R> ::core::iter::Iterator for Closure<S, Option<R>> {
+    type Item = R;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self()
+    }
+}
+
+impl<'a, S, R> ::core::iter::Iterator for &'a Closure<S, Option<R>> {
+    type Item = R;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self()
+    }
+}
