@@ -34,7 +34,7 @@ macro_rules! impl_closure_once {
         }
 
         #[allow(non_snake_case)]
-        impl<S, R, $($args)*> ::std::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
+        impl<S, R, $($args)*> ::core::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
             type Output = R;
 
             extern "rust-call" fn call_once(self, ($($args)*): ($($args)*)) -> Self::Output {
@@ -64,7 +64,7 @@ macro_rules! impl_closure_mut {
         }
 
         #[allow(non_snake_case)]
-        impl<S, R, $($args)*> ::std::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
+        impl<S, R, $($args)*> ::core::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
             type Output = R;
 
             extern "rust-call" fn call_once(mut self, ($($args)*): ($($args)*)) -> Self::Output {
@@ -73,7 +73,7 @@ macro_rules! impl_closure_mut {
         }
 
         #[allow(non_snake_case)]
-        impl<S, R, $($args)*> ::std::ops::FnMut<($($args)*)> for $name<S, R, $($args)*> {
+        impl<S, R, $($args)*> ::core::ops::FnMut<($($args)*)> for $name<S, R, $($args)*> {
             extern "rust-call" fn call_mut(&mut self, ($($args)*): ($($args)*)) -> Self::Output {
                 (self.f)(&mut self.state, $($args)*)
             }
@@ -101,7 +101,7 @@ macro_rules! impl_closure {
         }
 
         #[allow(non_snake_case)]
-        impl<S, R, $($args)*> ::std::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
+        impl<S, R, $($args)*> ::core::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
             type Output = R;
 
             extern "rust-call" fn call_once(self, ($($args)*): ($($args)*)) -> Self::Output {
@@ -110,14 +110,14 @@ macro_rules! impl_closure {
         }
 
         #[allow(non_snake_case)]
-        impl<S, R, $($args)*> ::std::ops::FnMut<($($args)*)> for $name<S, R, $($args)*> {
+        impl<S, R, $($args)*> ::core::ops::FnMut<($($args)*)> for $name<S, R, $($args)*> {
             extern "rust-call" fn call_mut(&mut self, ($($args)*): ($($args)*)) -> Self::Output {
                 (self.f)(&self.state, $($args)*)
             }
         }
 
         #[allow(non_snake_case)]
-        impl<S, R, $($args)*> ::std::ops::Fn<($($args)*)> for $name<S, R, $($args)*> {
+        impl<S, R, $($args)*> ::core::ops::Fn<($($args)*)> for $name<S, R, $($args)*> {
             extern "rust-call" fn call(&self, ($($args)*): ($($args)*)) -> Self::Output {
                 (self.f)(&self.state, $($args)*)
             }
@@ -145,7 +145,7 @@ macro_rules! impl_rec_closure_once {
         }
 
         #[allow(non_snake_case)]
-        impl<S, R, $($args)*> ::std::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
+        impl<S, R, $($args)*> ::core::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
             type Output = R;
 
             extern "rust-call" fn call_once(self, ($($args)*): ($($args)*)) -> Self::Output {
@@ -175,7 +175,7 @@ macro_rules! impl_rec_closure_mut {
         }
 
         #[allow(non_snake_case)]
-        impl<S, R, $($args)*> ::std::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
+        impl<S, R, $($args)*> ::core::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
             type Output = R;
 
             extern "rust-call" fn call_once(mut self, ($($args)*): ($($args)*)) -> Self::Output {
@@ -184,7 +184,7 @@ macro_rules! impl_rec_closure_mut {
         }
 
         #[allow(non_snake_case)]
-        impl<S, R, $($args)*> ::std::ops::FnMut<($($args)*)> for $name<S, R, $($args)*> {
+        impl<S, R, $($args)*> ::core::ops::FnMut<($($args)*)> for $name<S, R, $($args)*> {
             extern "rust-call" fn call_mut(&mut self, ($($args)*): ($($args)*)) -> Self::Output {
                 (self.f)(self, $($args)*)
             }
@@ -212,7 +212,7 @@ macro_rules! impl_rec_closure {
         }
 
         #[allow(non_snake_case)]
-        impl<S, R, $($args)*> ::std::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
+        impl<S, R, $($args)*> ::core::ops::FnOnce<($($args)*)> for $name<S, R, $($args)*> {
             type Output = R;
 
             extern "rust-call" fn call_once(self, ($($args)*): ($($args)*)) -> Self::Output {
@@ -221,14 +221,14 @@ macro_rules! impl_rec_closure {
         }
 
         #[allow(non_snake_case)]
-        impl<S, R, $($args)*> ::std::ops::FnMut<($($args)*)> for $name<S, R, $($args)*> {
+        impl<S, R, $($args)*> ::core::ops::FnMut<($($args)*)> for $name<S, R, $($args)*> {
             extern "rust-call" fn call_mut(&mut self, ($($args)*): ($($args)*)) -> Self::Output {
                 (self.f)(self, $($args)*)
             }
         }
 
         #[allow(non_snake_case)]
-        impl<S, R, $($args)*> ::std::ops::Fn<($($args)*)> for $name<S, R, $($args)*> {
+        impl<S, R, $($args)*> ::core::ops::Fn<($($args)*)> for $name<S, R, $($args)*> {
             extern "rust-call" fn call(&self, ($($args)*): ($($args)*)) -> Self::Output {
                 (self.f)(self, $($args)*)
             }
@@ -239,7 +239,7 @@ macro_rules! impl_rec_closure {
 macro_rules! impl_traits {
     ($name:ident, $($args:tt)*) => {
         // PartialEq
-        impl<S, R, $($args)*> ::std::cmp::PartialEq for $name<S, R, $($args)*>
+        impl<S, R, $($args)*> ::core::cmp::PartialEq for $name<S, R, $($args)*>
             where S: PartialEq
         {
             fn eq(&self, other: &Self) -> bool {
@@ -248,13 +248,13 @@ macro_rules! impl_traits {
         }
 
         // Eq
-        impl<S, R, $($args)*> ::std::cmp::Eq for $name<S, R, $($args)*>
+        impl<S, R, $($args)*> ::core::cmp::Eq for $name<S, R, $($args)*>
             where S: Eq
         {
         }
 
         // Clone
-        impl<S, R, $($args)*> ::std::clone::Clone for $name<S, R, $($args)*>
+        impl<S, R, $($args)*> ::core::clone::Clone for $name<S, R, $($args)*>
             where S: Clone
         {
             fn clone(&self) -> Self {

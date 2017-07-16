@@ -1,4 +1,5 @@
 #![feature(unboxed_closures,fn_traits)]
+#![no_std]
 
 //! ```rust
 //! extern crate closures;
