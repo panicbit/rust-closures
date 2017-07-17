@@ -1,7 +1,7 @@
 [package]
 name = "closures"
 description = "Abstraction for seperating code and state in closures"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["panicbit <panicbit.dev@gmail.com>"]
 documentation = "https://docs.rs/closures"
 repository = "https://github.com/panicbit/rust-closures"
